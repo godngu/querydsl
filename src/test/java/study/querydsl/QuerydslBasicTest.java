@@ -711,4 +711,41 @@ public class QuerydslBasicTest {
             .where(member.age.gt(18))
             .execute();
     }
+
+    /**
+     * 이름에서 member를 M으로 변경한다.
+     */
+    @Test
+    void sqlFunction() {
+        List<String> result = queryFactory
+            .select(
+                Expressions.stringTemplate(
+                    "function('replace', {0}, {1}, {2})",
+                    member.username, "member", "M"))
+            .from(member)
+            .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    /**
+     * 소문자 변환
+     * lowercase를 두 가지 방법으로 사용할 수 있다.
+     */
+    @Test
+    void sqlFunction2() {
+        List<String> result = queryFactory
+            .select(member.username)
+            .from(member)
+//            .where(member.username.eq(
+//                Expressions.stringTemplate("function('lower', {0})", member.username)))
+            .where(member.username.eq(member.username.lower()))
+            .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 }
