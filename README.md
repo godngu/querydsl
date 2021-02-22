@@ -64,3 +64,16 @@ private Predicate ageEq(Integer ageCond) {
     return ageCond == null ? null : member.age.eq(ageCond);
 }
 ```
+
+### 수정, 삭제 벌크연산
+**주의할 점**
+- 벌크 수정의 경우 DB에 바로 `update`를 한다.
+    - 따라서 영속성 컨텍스트와 같이 달라진다.
+        - DB: 수정됨
+        - 영속성컨텍스트: 수정 안됨
+    - 대안
+        - 영속성 컨텍스트를 초기화 한다.
+        ```java
+        em.flush();
+        em.clear();
+        ```
