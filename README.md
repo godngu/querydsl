@@ -30,4 +30,37 @@ JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)
             - `select(Projections.constructor(MemberDto.class, member.username, member.age))`
     - `@QueryProjection` 활용
         - dto 생성자에 어노테이션을 붙여서 사용한다.
-    
+
+
+### 동적쿼리
+**BooleanBuilder**
+```java
+BooleanBuilder builder = new BooleanBuilder();
+if (usernameCond != null) {
+    builder.and(member.username.eq(usernameCond));
+}
+
+if (ageCond != null) {
+    builder.and(member.age.eq(ageCond));
+}
+```
+
+:star:**where 다중 파라미터 사용**
+- 조건이 일치하지 않으면 null 반환
+    - `where` 조건에 `null` 값은 무시된다.
+- 리턴 타입은 `Predicate` 대신 `BooleanExpression` 사용한다.
+- 조건을 조합(composite) 해서 사용할 수 있는 장점이 있다.
+```java
+return queryFactory
+    .selectFrom(member)
+    .where(usernameEq(usernameCond), ageEq(ageCond))
+    .fetch();
+
+private BooleanExpression usernameEq(String usernameCond) {
+    return usernameCond == null ? null : member.username.eq(usernameCond);
+}
+
+private Predicate ageEq(Integer ageCond) {
+    return ageCond == null ? null : member.age.eq(ageCond);
+}
+```
