@@ -48,7 +48,7 @@ if (ageCond != null) {
 :star:**where 다중 파라미터 사용**
 - 조건이 일치하지 않으면 null 반환
     - `where` 조건에 `null` 값은 무시된다.
-- 리턴 타입은 `Predicate` 대신 `BooleanExpression` 사용한다.
+- 리턴 타입은 `Predicate` 대신 **`BooleanExpression`** 사용한다.
 - 조건을 조합(composite) 해서 사용할 수 있는 장점이 있다.
 ```java
 return queryFactory
