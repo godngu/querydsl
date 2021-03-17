@@ -65,6 +65,7 @@ private Predicate ageEq(Integer ageCond) {
 }
 ```
 
+
 ### 수정, 삭제 벌크연산
 **주의할 점**
 - 벌크 수정의 경우 DB에 바로 `update`를 한다.
@@ -77,4 +78,3 @@ private Predicate ageEq(Integer ageCond) {
         em.flush();
         em.clear();
         ```
-
